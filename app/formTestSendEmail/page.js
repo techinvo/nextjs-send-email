@@ -17,9 +17,9 @@ export default function EmailForm() {
 
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/sendEmail`, {
-                email,
-                subject,
-                message
+                "email":email,
+                "subject":subject,
+                "message":message
             });
 
             if (response.status === 200) {
