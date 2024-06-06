@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from 'react';
-import axios from 'axios';
 
 export default function EmailForm() {
     const [email, setEmail] = useState('');
@@ -14,15 +13,18 @@ export default function EmailForm() {
         e.preventDefault();
         setLoading(true);
         setStatus(null);
+        console.log(email, subject, message);
 
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/sendEmail`, {
-                "email":email,
-                "subject":subject,
-                "message":message
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/sendEmail`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, subject, message })
             });
 
-            if (response.status === 200) {
+            if (response.ok) {
                 setStatus('Email sent successfully!');
             } else {
                 setStatus('Failed to send email.');
